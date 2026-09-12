@@ -1,0 +1,498 @@
+@page
+@model HotelManagementSystemFresh.Pages.Dashboard.IndexModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="dashboard-header">
+
+    <div>
+        <h1>Hotel Management Dashboard</h1>
+
+        <p>
+            Manage rooms, customers, bookings and hotel operations from one place.
+        </p>
+    </div>
+
+    <a asp-page="/Bookings/Create"
+       class="btn btn-primary">
+        + New Booking
+    </a>
+
+</div>
+
+
+<!-- MAIN STATISTICS -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">🛏️</div>
+
+            <div class="card-title">
+                Total Rooms
+            </div>
+
+            <div class="card-value">
+                @Model.TotalRooms
+            </div>
+
+            <small class="text-muted">
+                All hotel rooms
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">✅</div>
+
+            <div class="card-title">
+                Available Rooms
+            </div>
+
+            <div class="card-value">
+                @Model.AvailableRooms
+            </div>
+
+            <small class="text-muted">
+                Ready for booking
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">🔴</div>
+
+            <div class="card-title">
+                Occupied Rooms
+            </div>
+
+            <div class="card-value">
+                @Model.OccupiedRooms
+            </div>
+
+            <small class="text-muted">
+                Currently occupied
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">👥</div>
+
+            <div class="card-title">
+                Customers
+            </div>
+
+            <div class="card-value">
+                @Model.TotalCustomers
+            </div>
+
+            <small class="text-muted">
+                Registered customers
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- BOOKING STATISTICS -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-xl-4 col-md-6">
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">📅</div>
+
+            <div class="card-title">
+                Total Bookings
+            </div>
+
+            <div class="card-value">
+                @Model.TotalBookings
+            </div>
+
+            <small class="text-muted">
+                All reservations
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-xl-4 col-md-6">
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">🔔</div>
+
+            <div class="card-title">
+                Active Bookings
+            </div>
+
+            <div class="card-value">
+                @Model.ActiveBookings
+            </div>
+
+            <small class="text-muted">
+                Booked / Checked-In
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-xl-4 col-md-6">
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">💰</div>
+
+            <div class="card-title">
+                Total Revenue
+            </div>
+
+            <div class="card-value">
+                ₹@Model.TotalRevenue.ToString("N0")
+            </div>
+
+            <small class="text-muted">
+                Non-cancelled bookings
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- OCCUPANCY + BOOKING STATUS -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-lg-5">
+
+        <div class="table-container">
+
+            <h5 class="mb-4">
+                Room Occupancy
+            </h5>
+
+            <div class="occupancy-box">
+
+                <div class="occupancy-number">
+                    @Model.OccupancyRate%
+                </div>
+
+                <div class="occupancy-label">
+                    Current Occupancy
+                </div>
+
+            </div>
+
+            <div class="status-row">
+
+                <span>Available Rooms</span>
+
+                <strong>
+                    @Model.AvailableRooms
+                </strong>
+
+            </div>
+
+            <div class="status-row">
+
+                <span>Occupied Rooms</span>
+
+                <strong>
+                    @Model.OccupiedRooms
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-lg-7">
+
+        <div class="table-container">
+
+            <h5 class="mb-4">
+                Booking Status
+            </h5>
+
+            <div class="status-row">
+
+                <span>📅 Booked</span>
+
+                <strong>
+                    @Model.BookedBookings
+                </strong>
+
+            </div>
+
+            <div class="status-row">
+
+                <span>🟢 Checked-In</span>
+
+                <strong>
+                    @Model.CheckedInBookings
+                </strong>
+
+            </div>
+
+            <div class="status-row">
+
+                <span>🔵 Checked-Out</span>
+
+                <strong>
+                    @Model.CheckedOutBookings
+                </strong>
+
+            </div>
+
+            <div class="status-row">
+
+                <span>🔴 Cancelled</span>
+
+                <strong>
+                    @Model.CancelledBookings
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- RECENT BOOKINGS -->
+
+<div class="table-container mb-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h5 class="mb-1">
+                Recent Bookings
+            </h5>
+
+            <small class="text-muted">
+                Latest hotel reservations
+            </small>
+
+        </div>
+
+        <a asp-page="/Bookings/Index"
+           class="btn btn-outline-primary btn-sm">
+
+            View All
+
+        </a>
+
+    </div>
+
+
+    @if (Model.RecentBookings.Any())
+    {
+        <div class="table-responsive">
+
+            <table class="table align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Customer</th>
+
+                        <th>Room</th>
+
+                        <th>Check-In</th>
+
+                        <th>Check-Out</th>
+
+                        <th>Amount</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach (var booking in Model.RecentBookings)
+                    {
+                        <tr>
+
+                            <td>
+                                @(booking.Customer?.FullName ?? "N/A")
+                            </td>
+
+                            <td>
+                                @(booking.Room?.RoomNumber ?? "N/A")
+                            </td>
+
+                            <td>
+                                @booking.CheckInDate.ToString("dd MMM yyyy")
+                            </td>
+
+                            <td>
+                                @booking.CheckOutDate.ToString("dd MMM yyyy")
+                            </td>
+
+                            <td>
+                                ₹@booking.TotalAmount.ToString("N0")
+                            </td>
+
+                            <td>
+
+                                @if (booking.Status == "Booked")
+                                {
+                                    <span class="badge bg-primary">
+                                        Booked
+                                    </span>
+                                }
+                                else if (booking.Status == "Checked-In")
+                                {
+                                    <span class="badge bg-success">
+                                        Checked-In
+                                    </span>
+                                }
+                                else if (booking.Status == "Checked-Out")
+                                {
+                                    <span class="badge bg-info text-dark">
+                                        Checked-Out
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">
+                                        Cancelled
+                                    </span>
+                                }
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-4 text-muted">
+
+            No bookings available yet.
+
+        </div>
+    }
+
+</div>
+
+
+<!-- QUICK ACTIONS -->
+
+<div class="table-container">
+
+    <div class="mb-4">
+
+        <h5 class="mb-1">
+            Quick Actions
+        </h5>
+
+        <small class="text-muted">
+            Quickly manage your hotel
+        </small>
+
+    </div>
+
+
+    <div class="row g-3">
+
+        <div class="col-md-4">
+
+            <a asp-page="/Rooms/Create"
+               class="btn btn-primary w-100 py-3">
+
+                🛏️
+                <br />
+
+                Add Room
+
+            </a>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <a asp-page="/Customers/Create"
+               class="btn btn-primary w-100 py-3">
+
+                👤
+                <br />
+
+                Add Customer
+
+            </a>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <a asp-page="/Bookings/Create"
+               class="btn btn-primary w-100 py-3">
+
+                📅
+                <br />
+
+                New Booking
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

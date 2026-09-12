@@ -1,0 +1,150 @@
+@page
+@model HotelManagementSystemFresh.Pages_Bookings.CreateModel
+
+@{
+    ViewData["Title"] = "Create Booking";
+}
+
+<div class="dashboard-header">
+
+    <h1>New Booking</h1>
+    <p>Create a new hotel reservation.</p>
+
+</div>
+
+<div class="table-container">
+
+    <form method="post">
+
+        <div asp-validation-summary="ModelOnly"
+             class="text-danger mb-3"></div>
+
+        <!-- ROOM -->
+
+        <div class="mb-3">
+
+            <label asp-for="Booking.RoomId"
+                   class="form-label">
+                Room
+            </label>
+
+            <select asp-for="Booking.RoomId"
+                    asp-items="Model.Rooms"
+                    class="form-select">
+
+                <option value="">
+                    -- Select Room --
+                </option>
+
+            </select>
+
+            <span asp-validation-for="Booking.RoomId"
+                  class="text-danger"></span>
+
+        </div>
+
+
+        <!-- CUSTOMER -->
+
+        <div class="mb-3">
+
+            <label asp-for="Booking.CustomerId"
+                   class="form-label">
+                Customer
+            </label>
+
+            <select asp-for="Booking.CustomerId"
+                    asp-items="Model.Customers"
+                    class="form-select">
+
+                <option value="">
+                    -- Select Customer --
+                </option>
+
+            </select>
+
+            <span asp-validation-for="Booking.CustomerId"
+                  class="text-danger"></span>
+
+        </div>
+
+
+        <!-- CHECK-IN -->
+
+        <div class="mb-3">
+
+            <label asp-for="Booking.CheckInDate"
+                   class="form-label">
+                Check-In Date
+            </label>
+
+            <input asp-for="Booking.CheckInDate"
+                   type="datetime-local"
+                   class="form-control" />
+
+            <span asp-validation-for="Booking.CheckInDate"
+                  class="text-danger"></span>
+
+        </div>
+
+
+        <!-- CHECK-OUT -->
+
+        <div class="mb-3">
+
+            <label asp-for="Booking.CheckOutDate"
+                   class="form-label">
+                Check-Out Date
+            </label>
+
+            <input asp-for="Booking.CheckOutDate"
+                   type="datetime-local"
+                   class="form-control" />
+
+            <span asp-validation-for="Booking.CheckOutDate"
+                  class="text-danger"></span>
+
+        </div>
+
+
+        <!-- STATUS -->
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Booking Status
+            </label>
+
+            <input value="Booked"
+                   class="form-control"
+                   readonly />
+
+        </div>
+
+
+        <!-- BUTTONS -->
+
+        <div class="mt-4">
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Create Booking
+            </button>
+
+            <a asp-page="./Index"
+               class="btn btn-outline-secondary ms-2">
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

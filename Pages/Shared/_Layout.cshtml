@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <title>
+        @ViewData["Title"] - Hotel Management System
+    </title>
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+</head>
+
+
+<body>
+
+    <div class="app-layout">
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-brand">
+
+                <div class="brand-icon">
+                    🏨
+                </div>
+
+                <div>
+                    <h5>Hotel Management</h5>
+                    <small>Admin Panel</small>
+                </div>
+
+            </div>
+
+
+            <nav class="sidebar-menu">
+
+                <a asp-page="/Dashboard/Index"
+                   class="sidebar-link">
+
+                    <span>📊</span>
+                    <span>Dashboard</span>
+
+                </a>
+
+
+                <a asp-page="/Rooms/Index"
+                   class="sidebar-link">
+
+                    <span>🛏️</span>
+                    <span>Rooms</span>
+
+                </a>
+
+
+                <a asp-page="/Customers/Index"
+                   class="sidebar-link">
+
+                    <span>👥</span>
+                    <span>Customers</span>
+
+                </a>
+
+
+                <a asp-page="/Bookings/Index"
+                   class="sidebar-link">
+
+                    <span>📅</span>
+                    <span>Bookings</span>
+
+                </a>
+
+            </nav>
+
+
+            <div class="sidebar-bottom">
+
+                <a asp-page="/Index"
+                   class="sidebar-link">
+
+                    <span>🏠</span>
+                    <span>Home</span>
+
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN AREA -->
+
+        <div class="main-area">
+
+            <!-- TOP BAR -->
+
+            <header class="topbar">
+
+                <div>
+
+                    <h6 class="topbar-title">
+                        @ViewData["Title"]
+                    </h6>
+
+                    <small class="text-muted">
+                        Hotel Management System
+                    </small>
+
+                </div>
+
+
+                <div class="admin-profile">
+
+                    <div class="admin-avatar">
+                        G
+                    </div>
+
+                    <div>
+
+                        <strong>Admin</strong>
+
+                        <small>
+                            Administrator
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- PAGE CONTENT -->
+
+            <main class="content-area">
+
+                @RenderBody()
+
+            </main>
+
+
+            <!-- FOOTER -->
+
+            <footer class="footer">
+
+                <span>
+                    © 2026 Hotel Management System
+                </span>
+
+                <span>
+                    Admin Panel
+                </span>
+
+            </footer>
+
+        </div>
+
+    </div>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/js/site.js"
+            asp-append-version="true">
+    </script>
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+
+</html>

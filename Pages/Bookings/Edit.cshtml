@@ -1,0 +1,215 @@
+@page
+@model HotelManagementSystemFresh.Pages_Bookings.EditModel
+
+@{
+    ViewData["Title"] = "Edit Booking";
+}
+
+<div class="dashboard-header">
+
+    <h1>Edit Booking</h1>
+
+    <p>
+        Update booking details, dates, billing and status.
+    </p>
+
+</div>
+
+<div class="table-container">
+
+    <form method="post">
+
+        <input type="hidden" asp-for="Booking.Id" />
+
+        <div asp-validation-summary="ModelOnly"
+             class="text-danger mb-3">
+        </div>
+
+
+        <!-- ROOM -->
+
+        <div class="mb-3">
+
+            <label asp-for="Booking.RoomId"
+                   class="form-label">
+                Room
+            </label>
+
+            <select asp-for="Booking.RoomId"
+                    asp-items="Model.Rooms"
+                    class="form-select">
+
+                <option value="">
+                    -- Select Room --
+                </option>
+
+            </select>
+
+            <span asp-validation-for="Booking.RoomId"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+
+        <!-- CUSTOMER -->
+
+        <div class="mb-3">
+
+            <label asp-for="Booking.CustomerId"
+                   class="form-label">
+                Customer
+            </label>
+
+            <select asp-for="Booking.CustomerId"
+                    asp-items="Model.Customers"
+                    class="form-select">
+
+                <option value="">
+                    -- Select Customer --
+                </option>
+
+            </select>
+
+            <span asp-validation-for="Booking.CustomerId"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+
+        <!-- CHECK IN -->
+
+        <div class="mb-3">
+
+            <label asp-for="Booking.CheckInDate"
+                   class="form-label">
+                Check-In Date
+            </label>
+
+            <input asp-for="Booking.CheckInDate"
+                   type="date"
+                   class="form-control" />
+
+            <span asp-validation-for="Booking.CheckInDate"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+
+        <!-- CHECK OUT -->
+
+        <div class="mb-3">
+
+            <label asp-for="Booking.CheckOutDate"
+                   class="form-label">
+                Check-Out Date
+            </label>
+
+            <input asp-for="Booking.CheckOutDate"
+                   type="date"
+                   class="form-control" />
+
+            <span asp-validation-for="Booking.CheckOutDate"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+
+        <!-- STATUS -->
+
+        <div class="mb-3">
+
+            <label asp-for="Booking.Status"
+                   class="form-label">
+                Booking Status
+            </label>
+
+            <select asp-for="Booking.Status"
+                    class="form-select">
+
+                <option value="Booked">
+                    Booked
+                </option>
+
+                <option value="Checked-In">
+                    Checked-In
+                </option>
+
+                <option value="Checked-Out">
+                    Checked-Out
+                </option>
+
+                <option value="Cancelled">
+                    Cancelled
+                </option>
+
+            </select>
+
+            <span asp-validation-for="Booking.Status"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+
+        <!-- CURRENT BILL -->
+
+        <div class="row g-3 mb-3">
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Number of Nights
+                </label>
+
+                <input value="@Model.Booking.NumberOfNights"
+                       class="form-control"
+                       readonly />
+
+            </div>
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Total Amount
+                </label>
+
+                <input value="₹@Model.Booking.TotalAmount.ToString("N2")"
+                       class="form-control"
+                       readonly />
+
+            </div>
+
+        </div>
+
+
+        <!-- BUTTONS -->
+
+        <div class="mt-4">
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Save Changes
+            </button>
+
+            <a asp-page="./Index"
+               class="btn btn-outline-secondary ms-2">
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}

@@ -1,0 +1,523 @@
+@page
+@model HotelManagementSystemFresh.Pages_Bookings.IndexModel
+
+@{
+    ViewData["Title"] = "Bookings";
+}
+
+<!-- PAGE HEADER -->
+
+<div class="dashboard-header">
+
+    <div>
+        <h1>Booking Management</h1>
+
+        <p>
+            Manage hotel reservations, customers and booking status.
+        </p>
+    </div>
+
+    <a asp-page="Create"
+       class="btn btn-primary px-4 py-2">
+
+        + New Booking
+
+    </a>
+
+</div>
+
+
+<!-- BOOKING SUMMARY -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📅
+            </div>
+
+            <div class="card-title">
+                Total Bookings
+            </div>
+
+            <div class="card-value">
+                @Model.Booking.Count
+            </div>
+
+            <small class="text-muted">
+                All reservations
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                🟢
+            </div>
+
+            <div class="card-title">
+                Booked
+            </div>
+
+            <div class="card-value">
+                @Model.Booking.Count(b => b.Status == "Booked")
+            </div>
+
+            <small class="text-muted">
+                Upcoming reservations
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                🔵
+            </div>
+
+            <div class="card-title">
+                Checked-In
+            </div>
+
+            <div class="card-value">
+                @Model.Booking.Count(b => b.Status == "Checked-In")
+            </div>
+
+            <small class="text-muted">
+                Current stays
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                🔴
+            </div>
+
+            <div class="card-title">
+                Cancelled
+            </div>
+
+            <div class="card-value">
+                @Model.Booking.Count(b => b.Status == "Cancelled")
+            </div>
+
+            <small class="text-muted">
+                Cancelled reservations
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- SEARCH & FILTER -->
+
+<div class="table-container mb-4">
+
+    <div class="mb-4">
+
+        <h5 class="mb-1">
+            Search & Filter Bookings
+        </h5>
+
+        <small class="text-muted">
+            Search by room number or customer and filter by booking status.
+        </small>
+
+    </div>
+
+
+    <form method="get">
+
+        <div class="row g-3">
+
+            <!-- SEARCH -->
+
+            <div class="col-lg-5 col-md-6">
+
+                <label class="form-label fw-semibold">
+                    Search Booking
+                </label>
+
+                <input type="text"
+                       name="search"
+                       value="@Model.Search"
+                       class="form-control"
+                       placeholder="Room number or customer name..." />
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="col-lg-4 col-md-6">
+
+                <label class="form-label fw-semibold">
+                    Booking Status
+                </label>
+
+                <select name="status"
+                        class="form-select">
+
+                    <option value="">
+                        All Statuses
+                    </option>
+
+                    <option value="Booked"
+                            selected="@(Model.Status == "Booked")">
+                        Booked
+                    </option>
+
+                    <option value="Checked-In"
+                            selected="@(Model.Status == "Checked-In")">
+                        Checked-In
+                    </option>
+
+                    <option value="Checked-Out"
+                            selected="@(Model.Status == "Checked-Out")">
+                        Checked-Out
+                    </option>
+
+                    <option value="Cancelled"
+                            selected="@(Model.Status == "Cancelled")">
+                        Cancelled
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="col-lg-3 col-md-12 d-flex align-items-end gap-2">
+
+                <button type="submit"
+                        class="btn btn-primary flex-grow-1">
+
+                    🔍 Search
+
+                </button>
+
+                <a asp-page="./Index"
+                   class="btn btn-outline-secondary">
+
+                    Clear
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<!-- BOOKING TABLE -->
+
+<div class="table-container">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h5 class="mb-1">
+                All Bookings
+            </h5>
+
+            <small class="text-muted">
+                Showing @Model.Booking.Count booking(s)
+            </small>
+
+        </div>
+
+
+        <a asp-page="Create"
+           class="btn btn-outline-primary btn-sm">
+
+            + New Booking
+
+        </a>
+
+    </div>
+
+
+    <div class="table-responsive">
+
+        <table class="table align-middle booking-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Room
+                    </th>
+
+                    <th>
+                        Customer
+                    </th>
+
+                    <th>
+                        Check-In
+                    </th>
+
+                    <th>
+                        Check-Out
+                    </th>
+
+                    <th>
+                        Nights
+                    </th>
+
+                    <th>
+                        Total Amount
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <th class="text-end">
+                        Actions
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                @if (Model.Booking.Any())
+                {
+                    @foreach (var item in Model.Booking)
+                    {
+                        <tr>
+
+                            <!-- ROOM -->
+
+                            <td>
+
+                                <div class="booking-room">
+
+                                    <div class="booking-icon">
+                                        🛏️
+                                    </div>
+
+                                    <strong>
+                                        Room @(item.Room?.RoomNumber ?? "N/A")
+                                    </strong>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- CUSTOMER -->
+
+                            <td>
+
+                                <div class="booking-customer">
+
+                                    <strong>
+                                        @(item.Customer?.FullName ?? "N/A")
+                                    </strong>
+
+                                    <small>
+                                        Customer ID:
+                                        @(item.Customer?.Id.ToString() ?? "N/A")
+                                    </small>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- CHECK-IN -->
+
+                            <td>
+
+                                <strong>
+                                    @item.CheckInDate.ToString("dd MMM yyyy")
+                                </strong>
+
+                            </td>
+
+
+                            <!-- CHECK-OUT -->
+
+                            <td>
+
+                                <strong>
+                                    @item.CheckOutDate.ToString("dd MMM yyyy")
+                                </strong>
+
+                            </td>
+
+
+                            <!-- NIGHTS -->
+
+                            <td>
+
+                                <span class="nights-badge">
+                                    @item.NumberOfNights
+                                </span>
+
+                            </td>
+
+
+                            <!-- TOTAL -->
+
+                            <td>
+
+                                <strong class="booking-amount">
+                                    ₹@item.TotalAmount.ToString("N2")
+                                </strong>
+
+                            </td>
+
+
+                            <!-- STATUS -->
+
+                            <td>
+
+                                @if (item.Status == "Booked")
+                                {
+                                    <span class="booking-status booked">
+                                        <span class="status-dot"></span>
+                                        Booked
+                                    </span>
+                                }
+                                else if (item.Status == "Checked-In")
+                                {
+                                    <span class="booking-status checked-in">
+                                        <span class="status-dot"></span>
+                                        Checked-In
+                                    </span>
+                                }
+                                else if (item.Status == "Checked-Out")
+                                {
+                                    <span class="booking-status checked-out">
+                                        <span class="status-dot"></span>
+                                        Checked-Out
+                                    </span>
+                                }
+                                else if (item.Status == "Cancelled")
+                                {
+                                    <span class="booking-status cancelled">
+                                        <span class="status-dot"></span>
+                                        Cancelled
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="booking-status other">
+                                        @item.Status
+                                    </span>
+                                }
+
+                            </td>
+
+
+                            <!-- ACTIONS -->
+
+                            <td class="text-end">
+
+                                <a asp-page="./Edit"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-sm btn-outline-primary me-1">
+
+                                    Edit
+
+                                </a>
+
+
+                                <a asp-page="./Details"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-sm btn-outline-secondary me-1">
+
+                                    View
+
+                                </a>
+
+
+                                <a asp-page="./Delete"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-sm btn-outline-danger">
+
+                                    Delete
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+
+                        <td colspan="8">
+
+                            <div class="empty-state">
+
+                                <div class="empty-icon">
+                                    📅
+                                </div>
+
+                                <h5>
+                                    No bookings found
+                                </h5>
+
+                                <p>
+                                    Try changing your search or filter.
+                                </p>
+
+                                <a asp-page="Create"
+                                   class="btn btn-primary">
+
+                                    + Create Booking
+
+                                </a>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

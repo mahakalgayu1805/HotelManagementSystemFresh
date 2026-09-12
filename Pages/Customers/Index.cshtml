@@ -1,0 +1,397 @@
+@page
+@model HotelManagementSystemFresh.Pages_Customers.IndexModel
+
+@{
+    ViewData["Title"] = "Customers";
+}
+
+<!-- PAGE HEADER -->
+
+<div class="dashboard-header">
+
+    <div>
+        <h1>Customer Management</h1>
+
+        <p>
+            Manage registered hotel customers and their contact information.
+        </p>
+    </div>
+
+    <a asp-page="Create"
+       class="btn btn-primary px-4 py-2">
+
+        + Add New Customer
+
+    </a>
+
+</div>
+
+
+<!-- CUSTOMER SUMMARY -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-xl-4 col-md-6">
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                👥
+            </div>
+
+            <div class="card-title">
+                Total Customers
+            </div>
+
+            <div class="card-value">
+                @Model.Customer.Count
+            </div>
+
+            <small class="text-muted">
+                Registered customers
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-xl-4 col-md-6">
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📧
+            </div>
+
+            <div class="card-title">
+                Registered Emails
+            </div>
+
+            <div class="card-value">
+                @Model.Customer.Count(c => !string.IsNullOrWhiteSpace(c.Email))
+            </div>
+
+            <small class="text-muted">
+                Customer email records
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-xl-4 col-md-6">
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                📱
+            </div>
+
+            <div class="card-title">
+                Contact Numbers
+            </div>
+
+            <div class="card-value">
+                @Model.Customer.Count(c => !string.IsNullOrWhiteSpace(c.Phone))
+            </div>
+
+            <small class="text-muted">
+                Customer phone records
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- SEARCH -->
+
+<div class="table-container mb-4">
+
+    <div class="mb-4">
+
+        <h5 class="mb-1">
+            Search Customers
+        </h5>
+
+        <small class="text-muted">
+            Search customers by name, email or phone number.
+        </small>
+
+    </div>
+
+
+    <form method="get">
+
+        <div class="row g-3">
+
+            <div class="col-lg-10 col-md-9">
+
+                <label class="form-label fw-semibold">
+                    Customer Search
+                </label>
+
+                <input type="text"
+                       name="search"
+                       value="@Model.Search"
+                       class="form-control"
+                       placeholder="Enter name, email or phone..." />
+
+            </div>
+
+
+            <div class="col-lg-2 col-md-3 d-flex align-items-end">
+
+                <button type="submit"
+                        class="btn btn-primary w-100">
+
+                    🔍 Search
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<!-- CUSTOMER TABLE -->
+
+<div class="table-container">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h5 class="mb-1">
+                All Customers
+            </h5>
+
+            <small class="text-muted">
+                Showing @Model.Customer.Count customer(s)
+            </small>
+
+        </div>
+
+
+        <a asp-page="./Index"
+           class="btn btn-outline-secondary btn-sm">
+
+            Clear Search
+
+        </a>
+
+    </div>
+
+
+    <div class="table-responsive">
+
+        <table class="table align-middle customer-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Customer
+                    </th>
+
+                    <th>
+                        Email
+                    </th>
+
+                    <th>
+                        Phone
+                    </th>
+
+                    <th>
+                        Address
+                    </th>
+
+                    <th class="text-end">
+                        Actions
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                @if (Model.Customer.Any())
+                {
+                    @foreach (var item in Model.Customer)
+                    {
+                        <tr>
+
+                            <!-- CUSTOMER -->
+
+                            <td>
+
+                                <div class="customer-name">
+
+                                    <div class="customer-avatar">
+                                        @item.FullName.Substring(0, 1).ToUpper()
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+                                            @item.FullName
+                                        </strong>
+
+                                        <small>
+                                            Customer ID: @item.Id
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- EMAIL -->
+
+                            <td>
+
+                                @if (!string.IsNullOrWhiteSpace(item.Email))
+                                {
+                                    <span class="customer-email">
+                                        @item.Email
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">
+                                        Not provided
+                                    </span>
+                                }
+
+                            </td>
+
+
+                            <!-- PHONE -->
+
+                            <td>
+
+                                @if (!string.IsNullOrWhiteSpace(item.Phone))
+                                {
+                                    <span>
+                                        @item.Phone
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">
+                                        Not provided
+                                    </span>
+                                }
+
+                            </td>
+
+
+                            <!-- ADDRESS -->
+
+                            <td>
+
+                                @if (!string.IsNullOrWhiteSpace(item.Address))
+                                {
+                                    <span class="customer-address">
+                                        @item.Address
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">
+                                        Not provided
+                                    </span>
+                                }
+
+                            </td>
+
+
+                            <!-- ACTIONS -->
+
+                            <td class="text-end">
+
+                                <a asp-page="./Edit"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-sm btn-outline-primary me-1">
+
+                                    Edit
+
+                                </a>
+
+
+                                <a asp-page="./Details"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-sm btn-outline-secondary me-1">
+
+                                    View
+
+                                </a>
+
+
+                                <a asp-page="./Delete"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-sm btn-outline-danger">
+
+                                    Delete
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+
+                        <td colspan="5">
+
+                            <div class="empty-state">
+
+                                <div class="empty-icon">
+                                    👤
+                                </div>
+
+                                <h5>
+                                    No customers found
+                                </h5>
+
+                                <p>
+                                    Try another search or add a new customer.
+                                </p>
+
+                                <a asp-page="Create"
+                                   class="btn btn-primary">
+
+                                    + Add Customer
+
+                                </a>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

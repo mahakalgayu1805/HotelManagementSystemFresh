@@ -1,0 +1,447 @@
+@page
+@model HotelManagementSystemFresh.Pages_Rooms.IndexModel
+
+@{
+    ViewData["Title"] = "Rooms";
+}
+
+<!-- PAGE HEADER -->
+
+<div class="dashboard-header">
+
+    <div>
+        <h1>Room Management</h1>
+
+        <p>
+            Manage hotel rooms, pricing and availability.
+        </p>
+    </div>
+
+    <a asp-page="Create"
+       class="btn btn-primary px-4 py-2">
+
+        + Add New Room
+
+    </a>
+
+</div>
+
+
+<!-- ROOM SUMMARY -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-xl-4 col-md-6">
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                🛏️
+            </div>
+
+            <div class="card-title">
+                Total Rooms
+            </div>
+
+            <div class="card-value">
+                @Model.Room.Count
+            </div>
+
+            <small class="text-muted">
+                All hotel rooms
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-xl-4 col-md-6">
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                ✅
+            </div>
+
+            <div class="card-title">
+                Available Rooms
+            </div>
+
+            <div class="card-value">
+                @Model.Room.Count(r => r.IsAvailable)
+            </div>
+
+            <small class="text-muted">
+                Ready for booking
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-xl-4 col-md-6">
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                🔴
+            </div>
+
+            <div class="card-title">
+                Occupied Rooms
+            </div>
+
+            <div class="card-value">
+                @Model.Room.Count(r => !r.IsAvailable)
+            </div>
+
+            <small class="text-muted">
+                Currently occupied
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- SEARCH & FILTER -->
+
+<div class="table-container mb-4">
+
+    <div class="mb-4">
+
+        <h5 class="mb-1">
+            Search & Filter Rooms
+        </h5>
+
+        <small class="text-muted">
+            Find rooms by number, type or availability.
+        </small>
+
+    </div>
+
+
+    <form method="get">
+
+        <div class="row g-3">
+
+            <!-- ROOM NUMBER -->
+
+            <div class="col-lg-4 col-md-6">
+
+                <label class="form-label fw-semibold">
+                    Room Number
+                </label>
+
+                <input type="text"
+                       name="Search"
+                       value="@Model.Search"
+                       class="form-control"
+                       placeholder="Enter room number..." />
+
+            </div>
+
+
+            <!-- ROOM TYPE -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <label class="form-label fw-semibold">
+                    Room Type
+                </label>
+
+                <select name="RoomType"
+                        class="form-select">
+
+                    <option value="">
+                        All Room Types
+                    </option>
+
+                    @foreach (var type in Model.RoomTypes)
+                    {
+                        <option value="@type"
+                                selected="@(Model.RoomType == type)">
+                            @type
+                        </option>
+                    }
+
+                </select>
+
+            </div>
+
+
+            <!-- AVAILABILITY -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <label class="form-label fw-semibold">
+                    Availability
+                </label>
+
+                <select name="Availability"
+                        class="form-select">
+
+                    <option value="">
+                        All Rooms
+                    </option>
+
+                    <option value="Available"
+                            selected="@(Model.Availability == "Available")">
+                        Available
+                    </option>
+
+                    <option value="Occupied"
+                            selected="@(Model.Availability == "Occupied")">
+                        Occupied
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- SEARCH BUTTON -->
+
+            <div class="col-lg-2 col-md-6 d-flex align-items-end">
+
+                <button type="submit"
+                        class="btn btn-primary w-100">
+
+                    Search
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<!-- ROOMS TABLE -->
+
+<div class="table-container">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h5 class="mb-1">
+                All Rooms
+            </h5>
+
+            <small class="text-muted">
+                Showing @Model.Room.Count room(s)
+            </small>
+
+        </div>
+
+
+        <a asp-page="./Index"
+           class="btn btn-outline-secondary btn-sm">
+
+            Clear Filters
+
+        </a>
+
+    </div>
+
+
+    <div class="table-responsive">
+
+        <table class="table align-middle room-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Room
+                    </th>
+
+                    <th>
+                        Room Type
+                    </th>
+
+                    <th>
+                        Price / Night
+                    </th>
+
+                    <th>
+                        Availability
+                    </th>
+
+                    <th class="text-end">
+                        Actions
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                @if (Model.Room.Any())
+                {
+                    @foreach (var item in Model.Room)
+                    {
+                        <tr>
+
+                            <!-- ROOM -->
+
+                            <td>
+
+                                <div class="room-name">
+
+                                    <div class="room-icon">
+                                        🛏️
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+                                            Room @item.RoomNumber
+                                        </strong>
+
+                                        <small>
+                                            Room ID: @item.Id
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- ROOM TYPE -->
+
+                            <td>
+
+                                <span class="room-type-badge">
+                                    @item.RoomType
+                                </span>
+
+                            </td>
+
+
+                            <!-- PRICE -->
+
+                            <td>
+
+                                <strong class="room-price">
+                                    ₹@item.PricePerNight.ToString("N0")
+                                </strong>
+
+                                <small class="text-muted">
+                                    / night
+                                </small>
+
+                            </td>
+
+
+                            <!-- AVAILABILITY -->
+
+                            <td>
+
+                                @if (item.IsAvailable)
+                                {
+                                    <span class="availability-badge available">
+                                        <span class="status-dot"></span>
+                                        Available
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="availability-badge occupied">
+                                        <span class="status-dot"></span>
+                                        Occupied
+                                    </span>
+                                }
+
+                            </td>
+
+
+                            <!-- ACTIONS -->
+
+                            <td class="text-end">
+
+                                <a asp-page="./Edit"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-sm btn-outline-primary me-1">
+
+                                    Edit
+
+                                </a>
+
+
+                                <a asp-page="./Details"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-sm btn-outline-secondary me-1">
+
+                                    View
+
+                                </a>
+
+
+                                <a asp-page="./Delete"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-sm btn-outline-danger">
+
+                                    Delete
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+
+                        <td colspan="5">
+
+                            <div class="empty-state">
+
+                                <div class="empty-icon">
+                                    🛏️
+                                </div>
+
+                                <h5>
+                                    No rooms found
+                                </h5>
+
+                                <p>
+                                    No rooms match your current search or filters.
+                                </p>
+
+                                <a asp-page="./Index"
+                                   class="btn btn-outline-primary">
+
+                                    Clear Filters
+
+                                </a>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
