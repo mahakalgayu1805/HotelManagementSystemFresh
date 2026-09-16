@@ -45,13 +45,6 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-// Apply database migrations automatically
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    db.Database.Migrate();
-}
-
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
